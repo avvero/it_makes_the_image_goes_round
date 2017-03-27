@@ -26,11 +26,11 @@ predictors = np.arange(1, DM * DM + 1, 1)
 print("------- Learn --------")
 
 polynomial_features = PolynomialFeatures(degree=1, include_bias=False)
-#alg = linear_model.LogisticRegression()
+alg = linear_model.LogisticRegression(C=0.01)
 # alg = AdaBoostClassifier()
-alg = RandomForestClassifier(n_estimators=100)
+# alg = RandomForestClassifier(n_estimators=100)
 # alg = SVC()
-#alg = MLPClassifier(hidden_layer_sizes=(1000, 1000, 1000))
+# alg = MLPClassifier(hidden_layer_sizes=(1000, 1000, 1000))
 
 pipeline = Pipeline([("polynomial_features", polynomial_features),
                      ("logistic_regression", alg)])
@@ -60,7 +60,8 @@ alg.fit(train[predictors], train["s"])
 print("------- Bias-Variance --------")
 
 print("Plot")
-plot_learning_curve(pipeline, "sdf", train[predictors], train["s"], (-0.1, 1.1), cv=ShuffleSplit(n_splits=10, test_size=0.3, random_state=50), n_jobs=1)
+plot_learning_curve(pipeline, "sdf", train[predictors], train["s"], (-0.1, 1.1),
+                    cv=ShuffleSplit(n_splits=10, test_size=0.3, random_state=50), n_jobs=1)
 plt.show()
 
 print("-------TEST--------")
